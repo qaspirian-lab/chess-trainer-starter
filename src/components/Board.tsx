@@ -1,28 +1,38 @@
 import { useState } from "react";
-import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
+import { Chessboard } from "react-chessboard";
 
-export function Board() {
+export default function Board() {
   const [game, setGame] = useState(new Chess());
 
-  function onDrop(sourceSquare: string, targetSquare: string) {
-    const move = game.move({
-      from: sourceSquare,
-      to: targetSquare,
-      promotion: "q", // auto-queen for simplicity
+  function safeGameMutate(modify: (g: Chess) => void) {
+    const updated = new Chess(game.fen());
+    modify(updated);
+    setGame(updated);
+  }
+
+  function onPieceDrop(sourceSquare: string, targetSquare: string) {
+    let move = null;
+    safeGameMutate((g) => {
+      move = g.move({
+        from: sourceSquare,
+        to: targetSquare,
+        promotion: "q",
+      });
     });
 
-    if (move === null) return false; // illegal move
-
-    setGame(new Chess(game.fen())); // update board state
-    return true;
+    // Return false if the move is illegal (react-chessboard requirement)
+    return move !== null;
   }
 
   return (
-    <Chessboard
-      position={game.fen()}
-      onPieceDrop={onDrop}
-      boardWidth={500}
-    />
+    <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
+      <Chessboard
+        id="BasicBoard"
+        position={game.fen()}
+        onPieceDrop={onPieceDrop}
+        boardWidth={500}
+      />
+    </div>
   );
 }
