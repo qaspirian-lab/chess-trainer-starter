@@ -1,3 +1,4 @@
+/* global setTimeout */
 import { useEffect, useMemo, useState } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
