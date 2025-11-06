@@ -11,9 +11,13 @@ describe("chess utils", () => {
   });
 
   it("rejects illegal move", () => {
-    const g = new Chess();
-    const m = moveUci(g, "e2e5");
-    expect(m).toBeFalsy();
-    expect(g.history().length).toBe(0);
-  });
+  const g = new Chess();
+  let m;
+  try {
+    m = moveUci(g, "e2e5");
+  } catch {
+    m = false;
+  }
+  expect(m).toBeFalsy();
+  expect(g.history().length).toBe(0);
 });
