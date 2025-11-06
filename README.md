@@ -71,4 +71,4 @@ Each puzzle object:
 ## Notes
 - For production data or syncing, swap the `localStorage` store in `sm2.ts` for an API.
 - For end-to-end tests, add Playwright; CI is ready to extend.
-Thank you!
+
