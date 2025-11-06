@@ -38,7 +38,7 @@ export default function App() {
     if (!move) return false;
 
     const uci = `${sourceSquare}${targetSquare}`;
-    const step = current.solution[history.length];
+    const step = current.moves[history.length];
 
     if (uci !== step) {
       setMessage("Incorrect. Try again.");
@@ -49,8 +49,8 @@ export default function App() {
     const newHist = [...history, uci];
     setHistory(newHist);
 
-    // If there is an opponent reply in solution, play it automatically
-    const opp = current.solution[newHist.length];
+    // If there is an opponent reply in moves, play it automatically
+    const opp = current.moves[newHist.length];
     if (opp) {
       try {
         game.move({ from: opp.slice(0, 2), to: opp.slice(2, 4), promotion: "q" });
@@ -60,7 +60,7 @@ export default function App() {
       }
     }
 
-    if (newHist.length >= current.solution.length) {
+    if (newHist.length >= current.moves.length) {
       setMessage("Solved!");
     } else {
       setMessage("Good — continue.");
